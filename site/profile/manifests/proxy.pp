@@ -4,5 +4,8 @@ class profile::proxy (
 {
     class { "apache" : }
     class { "apache::mod::proxy" : }
-}
 
+    apache::balancer { "$cluster_name":
+        require => Class['apache::mod::proxy'],
+    }
+}
