@@ -9,3 +9,6 @@ mod 'stankevich-python', '1.18.2'
 
 # SELinux module
 mod 'puppet-selinux', '1.1.0'
+
+# apache module
+mod 'puppetlabs-apache', '1.11.0'
