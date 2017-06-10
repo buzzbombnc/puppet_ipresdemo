@@ -1,2 +1,2 @@
 ---
-cluster_name: "puppetcluster00"
+profile::proxy::cluster_name: "puppetcluster00"
