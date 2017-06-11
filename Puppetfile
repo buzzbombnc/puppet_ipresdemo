@@ -16,3 +16,4 @@ mod 'puppetlabs-apache', '1.11.0'
 # dependencies
 mod 'puppetlabs-stdlib', '4.17.0'
 mod 'puppetlabs-concat', '4.0.0'
+mod 'stahnma-epel', '1.2.2'
