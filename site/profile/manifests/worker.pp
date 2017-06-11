@@ -57,6 +57,16 @@ class profile::worker (
     }
 
     # Virtualenv
+    python::virtualenv { "${app_dir}/virtualenv":
+        ensure => 'present',
+        version => 'system',
+        requirements => "${app_dir}/src/requirements.txt",
+        owner        => $app_user,
+        group        => $app_group,
+        cwd          => "${app_dir}/virtualenv",
+        subscribe    => Vcsrepo["${app_dir}/src"],
+    }
+
     # Requirements
     # Test
     # Gunicorn
