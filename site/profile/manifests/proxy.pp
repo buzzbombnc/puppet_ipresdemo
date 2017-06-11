@@ -2,6 +2,7 @@ class profile::proxy (
     String $cluster_name
 )
 {
+    # Apache and proxy configuration.
     class { "apache" :
         default_vhost => false,
     }
@@ -16,5 +17,14 @@ class profile::proxy (
 
     apache::balancer { "$cluster_name":
         require => Class['apache::mod::proxy'],
+    }
+    
+    # Firewall configuration.
+    class { "firewalld" : }
+    
+    firewalld_service { 'http' :
+        ensure => 'present',
+        service => 'http',
+        zone   => 'public',
     }
 }
