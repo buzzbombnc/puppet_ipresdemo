@@ -139,15 +139,5 @@ class profile::worker (
         command     => '/usr/bin/systemctl restart gunicorn.service',
         refreshonly => true,
     }
-    # Test
-    # Gunicorn
-    #python::gunicorn {"${hostname}_worker":
-    #    ensure => 'present',
-    #    virtualenv => "${app_dir}/virtualenv",
-    #    mode       => 'wsgi',
-    #    dir        => "${app_dir}/src",
-    #    bind       => "${app_address}:${app_port}",
-    #    subscribe  => Python::Virtualenv["${app_dir}/virtualenv"],
-    #}
 }
 
