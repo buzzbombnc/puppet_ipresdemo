@@ -65,6 +65,14 @@ class profile::worker (
         subscribe    => Vcsrepo["${app_dir}/src"],
     }
 
+    # Test the application.
+    exec { 'application test':
+        command     => "${app_dir}/virtualenv/bin/python ${app_dir}/src/app_tests.py",
+        user        => $app_user,
+        refreshonly => true,
+        subscribe   => Python::Virtualenv["${app_dir}/virtualenv"],
+    }
+
     # gunicorn.socket
     $_socket_vars = {
         'address' => "${app_address}:${app_port}",
@@ -81,6 +89,7 @@ class profile::worker (
             Exec['enable socket'],
             Exec['start socket'],
         ],
+        require => Exec['application test'],
     }
 
     # gunicorn.service
@@ -102,6 +111,7 @@ class profile::worker (
             Exec['enable service'],
             Exec['start service'],
         ],
+        require => File['/etc/systemd/system/gunicorn.socket'],
     }
 
     # Service refresh and restart.
