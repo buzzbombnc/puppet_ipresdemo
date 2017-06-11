@@ -14,6 +14,15 @@ class profile::worker (
     }
 
     # Group, User
+    group { "$app_group":
+        ensure => 'present',
+    }
+    user { "$app_user":
+        ensure => 'present',
+        gid    => "$app_group",
+        home   => "$app_dir",
+        managehome => true,
+    }
 
     # Python
     class { 'python':
