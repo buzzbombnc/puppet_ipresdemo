@@ -27,4 +27,10 @@ class profile::proxy (
         service => 'http',
         zone   => 'public',
     }
+    
+    # Allow Apache to make proxy connections if selinux is running.
+    if $facts['os']['selinux']['enabled'] {
+        include selinux
+        selinux::boolean { 'httpd_can_network_connect': }
+    }
 }
