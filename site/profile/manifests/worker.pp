@@ -29,7 +29,7 @@ class profile::worker (
         group  => $app_group,
         owner  => $app_user,
     }
-    
+
     # Python
     class { 'python':
         ensure          => 'present',
@@ -38,8 +38,6 @@ class profile::worker (
         # virtualenv requires the devel components.
         dev             => 'present',
         virtualenv      => 'present',
-        #gunicorn        => 'present',
-        #manage_gunicorn => true,
     }
 
     # Clone
@@ -67,8 +65,29 @@ class profile::worker (
         subscribe    => Vcsrepo["${app_dir}/src"],
     }
 
-    # Requirements
+    # gunicorn.socket
+    $_socket_vars = {
+        'address' => "${app_address}:${app_port}",
+    }
+
+    file { '/etc/systemd/system/gunicorn.socket':
+        ensure => 'file',
+        content => epp('profile/gunicorn.socket.epp', $_socket_vars),
+        group => 'root',
+        mode    => '0755',
+        owner   => 'root',
+    }
+    
+    # gunicorn.service
     # Test
     # Gunicorn
+    #python::gunicorn {"${hostname}_worker":
+    #    ensure => 'present',
+    #    virtualenv => "${app_dir}/virtualenv",
+    #    mode       => 'wsgi',
+    #    dir        => "${app_dir}/src",
+    #    bind       => "${app_address}:${app_port}",
+    #    subscribe  => Python::Virtualenv["${app_dir}/virtualenv"],
+    #}
 }
 
