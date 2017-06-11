@@ -76,6 +76,11 @@ class profile::worker (
         group => 'root',
         mode    => '0755',
         owner   => 'root',
+        notify  => [
+            Exec['systemd reload'],
+            Exec['enable socket'],
+            Exec['start socket'],
+        ],
     }
 
     # gunicorn.service
@@ -92,8 +97,38 @@ class profile::worker (
         group => 'root',
         mode    => '0755',
         owner   => 'root',
+        notify  => [
+            Exec['systemd reload'],
+            Exec['enable service'],
+            Exec['start service'],
+        ],
     }
 
+    # Service refresh and restart.
+    exec { 'systemd reload':
+        command     => '/usr/bin/systemctl daemon-reload',
+        refreshonly => true,
+    }
+
+    exec { 'enable socket':
+        command     => '/usr/bin/systemctl enable gunicorn.socket',
+        refreshonly => true,
+    }
+
+    exec { 'start socket':
+        command     => '/usr/bin/systemctl restart gunicorn.socket',
+        refreshonly => true,
+    }
+
+    exec { 'enable service':
+        command     => '/usr/bin/systemctl enable gunicorn.service',
+        refreshonly => true,
+    }
+
+    exec { 'start service':
+        command     => '/usr/bin/systemctl restart gunicorn.service',
+        refreshonly => true,
+    }
     # Test
     # Gunicorn
     #python::gunicorn {"${hostname}_worker":
