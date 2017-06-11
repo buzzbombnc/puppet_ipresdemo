@@ -19,8 +19,8 @@ class profile::worker (
     }
     user { "$app_user":
         ensure => 'present',
-        gid    => "$app_group",
-        home   => "$app_dir",
+        gid    => $app_group,
+        home   => $app_dir,
         managehome => true,
     }
     file { "$app_dir":
@@ -46,13 +46,13 @@ class profile::worker (
     vcsrepo { "${app_dir}/src":
         ensure   => 'present',
         provider => 'git',
-        source   => "$git_repo",
-        revision => "$app_version",
-        user     => "$app_user",
+        source   => $git_repo,
+        revision => $app_version,
+        user     => $app_user,
         force    => true,
         require  => [
             Package['git'],
-            User["$app_user"],
+            User[$app_user],
         ],
     }
 
