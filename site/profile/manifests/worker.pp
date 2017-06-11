@@ -77,8 +77,23 @@ class profile::worker (
         mode    => '0755',
         owner   => 'root',
     }
-    
+
     # gunicorn.service
+    $_service_vars = $_socket_vars + {
+        'user'       => $app_user,
+        'group'      => $app_group,
+        'workdir'    => "${app_dir}/src",
+        'virtualenv' => "${app_dir}/virtualenv",
+    }
+
+    file { '/etc/systemd/system/gunicorn.service':
+        ensure => 'file',
+        content => epp('profile/gunicorn.service.epp', $_service_vars),
+        group => 'root',
+        mode    => '0755',
+        owner   => 'root',
+    }
+
     # Test
     # Gunicorn
     #python::gunicorn {"${hostname}_worker":
