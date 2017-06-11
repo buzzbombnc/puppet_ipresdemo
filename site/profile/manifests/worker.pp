@@ -16,6 +16,17 @@ class profile::worker (
     # Group, User
 
     # Python
+    class { 'python':
+        ensure          => 'present',
+        version         => 'system',
+        pip             => 'present',
+        # virtualenv requires the devel components.
+        dev             => 'present',
+        virtualenv      => 'present',
+        #gunicorn        => 'present',
+        #manage_gunicorn => true,
+    }
+
     # Clone
     # Virtualenv
     # Requirements
