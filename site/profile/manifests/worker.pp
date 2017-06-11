@@ -13,7 +13,7 @@ class profile::worker (
         ensure => 'present',
     }
 
-    # Group, User
+    # Group, User, directory
     group { "$app_group":
         ensure => 'present',
     }
@@ -23,7 +23,13 @@ class profile::worker (
         home   => "$app_dir",
         managehome => true,
     }
-
+    file { "$app_dir":
+        ensure => 'directory',
+        backup => false,
+        group  => $app_group,
+        owner  => $app_user,
+    }
+    
     # Python
     class { 'python':
         ensure          => 'present',
@@ -37,6 +43,19 @@ class profile::worker (
     }
 
     # Clone
+    vcsrepo { "${app_dir}/src":
+        ensure   => 'present',
+        provider => 'git',
+        source   => "$git_repo",
+        revision => "$app_version",
+        user     => "$app_user",
+        force    => true,
+        require  => [
+            Package['git'],
+            User["$app_user"],
+        ],
+    }
+
     # Virtualenv
     # Requirements
     # Test
