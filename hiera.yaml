@@ -6,11 +6,5 @@ defaults:
     data_hash: yaml_data
 
 hierarchy:
-  - name: "Per node data"
-    path: "nodes/%{trusted.certname}.yaml"
-    
-  - name: "Group variable"
-    path: "groups/%{facts.group}.yaml"
-    
   - name: "Common"
     path: "common.yaml"
