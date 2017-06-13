@@ -1,3 +1,9 @@
 ---
 profile::cluster_name: "puppetcluster00"
+profile::git_repo: "https://github.com/buzzbombnc/basicflaskapp.git"
+
+profile::app_user: "webapp"
+profile::app_group: "webapp"
+
+profile::app_dir: "/var/webapp"
 

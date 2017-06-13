@@ -1,7 +1,1 @@
 ---
-profile::worker::git_repo: "https://github.com/buzzbombnc/basicflaskapp.git"
-
-profile::worker::app_user: "webapp"
-profile::worker::app_group: "webapp"
-
-profile::worker::app_dir: "/var/webapp"

@@ -1,10 +1,10 @@
 class profile::worker (
-    String $git_repo = lookup('profile::worker::git_repo', String),
-    String $app_user,
-    String $app_group,
+    String $git_repo = lookup('profile::git_repo', String),
+    String $app_user = lookup('profile::app_user', String),
+    String $app_group = lookup('profile::app_group', String),
     String $app_address = '0.0.0.0',
     Integer $app_port = 5000,
-    String $app_dir,
+    String $app_dir = lookup('profile::app_dir', String),
     String $app_version = 'HEAD',
 )
 {
