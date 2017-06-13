@@ -1,5 +1,5 @@
 class profile::proxy (
-    String $cluster_name
+    String $cluster_name = lookup('profile::cluster_name', String)
 )
 {
     # Apache and proxy configuration.
