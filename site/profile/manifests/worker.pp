@@ -146,5 +146,17 @@ class profile::worker (
         balancer_cluster => $_clustername,
         url              => "http://${::fqdn}:${app_port}",
     }
+
+    # Open the firewall port.
+    # Firewall configuration.
+    class { "firewalld" : }
+
+    firewalld_port { "application port ${app_port}":
+        ensure   => 'present',
+        zone     => 'public',
+        port     => $app_port,
+        protocol => 'tcp',
+    }
+
 }
 
