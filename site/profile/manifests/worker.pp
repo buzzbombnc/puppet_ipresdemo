@@ -1,5 +1,5 @@
 class profile::worker (
-    String $git_repo,
+    String $git_repo = lookup('profile::worker::git_repo', String),
     String $app_user,
     String $app_group,
     String $app_address = '0.0.0.0',
