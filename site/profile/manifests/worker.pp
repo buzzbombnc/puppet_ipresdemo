@@ -144,7 +144,7 @@ class profile::worker (
     $_clustername = lookup('profile::cluster_name', String)
     @@apache::balancermember { "${::fqdn}_${_clustername}":
         balancer_cluster => $_clustername,
-        url              => "${app_address}:${app_port}",
+        url              => "http://${::fqdn}:${app_port}",
     }
 }
 
