@@ -139,5 +139,13 @@ class profile::worker (
         command     => '/usr/bin/systemctl restart gunicorn.service',
         refreshonly => true,
     }
+
+    # Export the worker resource.
+    $_clustername = lookup('profile::cluster_name', String)
+    @@apache::balancermember { "${::fqdn}_${_clustername}":
+        balancer_cluster => $_clustername,
+        url              => "${app_address}:${app_port}",
+        require          => Python::Virtualenv["${app_dir}/virtualenv"],
+    }
 }
 
