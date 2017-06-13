@@ -1,0 +1,10 @@
+[Unit]
+Description=gunicorn socket
+
+[Socket]
+ListenStream=<%= $address %>
+BindIPv6Only=both
+
+[Install]
+
+WantedBy=sockets.target

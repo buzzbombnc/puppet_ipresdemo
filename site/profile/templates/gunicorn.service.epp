@@ -1,0 +1,17 @@
+[Unit]
+Description=gunicorn daemon
+Requires=gunicorn.socket
+After=network.target
+
+[Service]
+PIDFile=/run/gunicorn/pid
+User=<%= $user %>
+Group=<%= $group %>
+RuntimeDirectory=gunicorn
+WorkingDirectory=<%= $workdir %>
+ExecStart=<%= $virtualenv %>/bin/gunicorn --pid /run/gunicorn/pid --bind <%= $address %> app:app
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+
+[Install]
+WantedBy=multi-user.target
